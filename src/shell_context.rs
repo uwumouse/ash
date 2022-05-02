@@ -3,7 +3,7 @@ use zip::ZipArchive;
 
 #[derive(Clone)]
 pub struct ShellContext {
-    pwd: String,
+    cwd: String,
     pub reader: ZipArchive<SyncFile>,
 }
 
@@ -13,15 +13,15 @@ impl ShellContext {
         let file = SyncFile::open(path).unwrap();
 
         Self {
-            pwd: String::from("/"),
+            cwd: String::from("/"),
             reader: ZipArchive::new(file).unwrap(),
         }
     }
 
     pub fn pwd(&self) -> &String {
-        &self.pwd
+        &self.cwd
     }
-    pub fn set_pwd(&mut self, new_pwd: String) {
-        self.pwd = new_pwd;
+    pub fn set_cwd(&mut self, new_pwd: String) {
+        self.cwd = new_pwd;
     }
 }

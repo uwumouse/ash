@@ -1,5 +1,6 @@
 use super::Command;
 use crate::{shell_context::ShellContext, utils};
+use colored::*;
 use zip::{read::ZipFile, result::ZipError};
 
 pub struct LsCommand;
@@ -23,7 +24,13 @@ impl Command for LsCommand {
 
         if let Some(f) = self.get_file(ctx, &path)? {
             let (size, unit) = utils::human_readable_size(f.size());
-            println!("(f) {} | {}{} (uncompressed).", f.name(), size, unit);
+            println!(
+                "({}) {} | {}{} (uncompressed).",
+                "f".yellow(),
+                f.name().blue(),
+                size,
+                unit
+            );
             return Ok(());
         }
 
@@ -95,9 +102,15 @@ impl<'a> LsCommand {
             let ctx = &mut ctx.clone();
             let file = self.get_file(ctx, abs)?;
             if let Some(f) = file {
-                let ftype = if f.is_file() { 'f' } else { 'd' };
+                let ftype = if f.is_file() { "f" } else { "d" };
                 let (size, unit) = utils::human_readable_size(f.size());
-                let entry = format!("({}) {} | {}{} (uncompressed)", ftype, rel, size, unit);
+                let entry = format!(
+                    "({}) {} | {}{} (uncompressed)",
+                    ftype.yellow(),
+                    rel.blue(),
+                    size,
+                    unit
+                );
                 entries.push(entry);
             }
         }

@@ -2,6 +2,7 @@ use crate::{
     commands::{CdCommand, Command, LsCommand},
     shell_context::ShellContext,
 };
+use colored::*;
 use std::io::{self, Write};
 
 pub struct Shell {
@@ -41,7 +42,7 @@ impl Shell {
     }
 
     fn prompt(&self) -> String {
-        print!("[{}]$ ", self.ctx.pwd());
+        print!("[{}]$ ", self.ctx.pwd().blue());
         io::stdout().flush().unwrap();
         let mut input = String::new();
         io::stdin()

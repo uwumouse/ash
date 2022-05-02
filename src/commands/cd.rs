@@ -10,7 +10,7 @@ impl Command for CdCommand {
 
     fn exec(&self, args: Vec<&str>, ctx: &mut ShellContext) -> Result<(), String> {
         if args.len() == 1 {
-            ctx.set_pwd(String::from("/"));
+            ctx.set_cwd(String::from("/"));
         } else {
             let mut new_cwd = utils::normalize_zip_path(args[1]);
             if !new_cwd.ends_with("/") {
@@ -22,7 +22,7 @@ impl Command for CdCommand {
             match f {
                 Ok(f) => {
                     if f.is_dir() {
-                        ctx.set_pwd(utils::normalize_zip_path(f.name()));
+                        ctx.set_cwd(utils::normalize_zip_path(f.name()));
                     } else {
                         eprintln!("Cannot cd into {}: it's a file", f.name());
                     }
