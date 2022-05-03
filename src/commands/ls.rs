@@ -24,13 +24,8 @@ impl Command for LsCommand {
 
         if let Some(f) = self.get_file(ctx, &path)? {
             let (size, unit) = utils::human_readable_size(f.size());
-            println!(
-                "({}) {} | {}{} (uncompressed).",
-                "f".yellow(),
-                f.name().blue(),
-                size,
-                unit
-            );
+            // TODO: Move to own function (since it used not only here)
+            println!("({}, {}{}) {}", "f".yellow(), size, unit, f.name().blue());
             return Ok(());
         }
 
@@ -104,13 +99,8 @@ impl<'a> LsCommand {
             if let Some(f) = file {
                 let ftype = if f.is_file() { "f" } else { "d" };
                 let (size, unit) = utils::human_readable_size(f.size());
-                let entry = format!(
-                    "({}) {} | {}{} (uncompressed)",
-                    ftype.yellow(),
-                    rel.blue(),
-                    size,
-                    unit
-                );
+                let name = if f.is_dir() { rel.blue() } else { rel.normal() };
+                let entry = format!("({}, {}{}) {}", ftype.yellow(), size, unit, name);
                 entries.push(entry);
             }
         }

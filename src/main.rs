@@ -2,6 +2,7 @@ mod commands;
 mod shell;
 mod shell_context;
 mod utils;
+mod zip_path;
 use shell::Shell;
 
 fn main() {
@@ -17,16 +18,3 @@ fn main() {
 
     return;
 }
-//fn list_zip_contents(reader: impl Read + Seek) -> zip::result::ZipResult<()> {
-//let mut zip = zip::ZipArchive::new(reader)?;
-
-//for i in 0..zip.len() {
-//let mut file = zip.by_index(i)?;
-//if file.name().ends_with(".txt") {
-//println!("Filename: {}", file.name());
-//std::io::copy(&mut file, &mut std::io::stdout())?;
-//}
-//}
-
-//Ok(())
-//}
